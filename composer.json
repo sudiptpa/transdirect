@@ -1,0 +1,35 @@
+{
+   "name":"sudiptpa/transdirect",
+   "type":"library",
+   "description":"A minimal implementation of Transdirect Public API v4 ",
+   "keywords":[
+      "transdirect",
+      "api"
+   ],
+   "license":"MIT",
+   "authors":[
+      {
+         "name": "Sujip Thapa",
+         "email": "sudiptpa@gmail.com",
+         "homepage": "https://sujipthapa.co",
+         "role": "Developer"
+      }
+   ],
+   "require":{
+      "php": "~5.5|~7.0",
+      "guzzlehttp/guzzle":"5.*"
+   },
+   "require-dev":{
+      "friendsofphp/php-cs-fixer":"~1.0"
+   },
+   "extra":{
+      "branch-alias":{
+         "dev-master":"1.0.x-dev"
+      }
+   },
+   "autoload":{
+      "psr-4":{
+         "Sujip\\Transdirect\\":"src/"
+      }
+   }
+}
