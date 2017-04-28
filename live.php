@@ -44,7 +44,27 @@ $payload = [
     ],
 ];
 
+$confirm = [
+    "courier" => "allied",
+    "pickup-date" => "2015-08-27",
+];
+
+$item = [
+    "weight" => 11,
+    "height" => 11,
+    "width" => 11,
+    "length" => 11,
+    "quantity" => 5,
+    "description" => "carton",
+];
+
 $response = $transdirect->simpleQuotes($payload);
+$response = $transdirect->searchLocations('highton');
 
 echo "<pre>";
-var_dump($response->getBody());
+
+print_r($response->getBody());
+
+
+//only numbers
+// $output = preg_replace( '/[^0-9]/', '', $string );

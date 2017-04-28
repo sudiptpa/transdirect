@@ -25,10 +25,10 @@ class Transdirect
     protected $client;
 
     /**
-     * @param $token
+     * @param string $token
      * @param GuzzleClient $client
      */
-    public function __construct($token, GuzzleClient $client = null)
+    public function __construct(string $token, GuzzleClient $client = null)
     {
         $this->token = $token;
 
@@ -53,7 +53,10 @@ class Transdirect
         try {
             $response = $this->client->{$method}($url, $parameters);
         } catch (ClientException $exception) {
-            throw $this->throwException($exception);
+            return [
+                'error' => $exception->getMessage(),
+                'status' => $exception->getResponse()->getStatusCode(),
+            ];
         }
 
         return new Response($response);
@@ -78,7 +81,9 @@ class Transdirect
      */
     public function simpleQuotes(array $parameters)
     {
-        return $this->makeRequest('quotes', ['body' => json_encode($parameters)]);
+        $response = $this->makeRequest('quotes', ['body' => json_encode($parameters)]);
+
+        return $response->getQuotes();
     }
 
     /**
@@ -134,6 +139,78 @@ class Transdirect
         $uri = "bookings/{$booking_id}";
 
         return $this->makeRequest($uri, [], 'delete');
+    }
+
+    /**
+     * @param $booking_id
+     * @param $parameters
+     */
+    public function confirmBooking($booking_id, $parameters)
+    {
+        $uri = "bookings/{$booking_id}/confirm";
+
+        return $this->makeRequest($uri, ['body' => json_encode($parameters)]);
+    }
+
+    /**
+     * @param $booking_id
+     */
+    public function trackBooking($booking_id)
+    {
+        $uri = "bookings/track/{$booking_id}";
+
+        return $this->makeRequest($uri, [], 'get');
+    }
+
+    /**
+     * @param $booking_id
+     */
+    public function getBookingItems($booking_id)
+    {
+        $uri = "bookings/{$booking_id}/items";
+
+        return $this->makeRequest($uri, [], 'get');
+    }
+
+    /**
+     * @param $booking_id
+     * @param $parameters
+     */
+    public function addItemInBooking($booking_id, $parameters)
+    {
+        $uri = "bookings/{$booking_id}/items";
+
+        return $this->makeRequest($uri, ['body' => json_encode($parameters)]);
+    }
+
+    /**
+     * @param $page
+     */
+    public function getLocations($page = null)
+    {
+        $uri = "bookings/locations" . $page ? "/page/{$page}" : "";
+
+        return $this->makeRequest($uri, [], 'get');
+    }
+
+    /**
+     * @param $query
+     */
+    public function searchLocations($query = null)
+    {
+        $uri = "bookings/locations?q={$query}";
+
+        return $this->makeRequest($uri, [], 'get');
+    }
+
+    /**
+     * @param $query
+     */
+    public function getByPostcode($query)
+    {
+        $uri = "locations/postcode/{$query}";
+
+        return $this->makeRequest($uri, [], 'get');
     }
 
     /**

@@ -26,17 +26,9 @@ class Response extends GuzzleHttpResponse
     /**
      * @return mixed
      */
-    public function getBody()
-    {
-        return (string) $this->response->getBody();
-    }
-
-    /**
-     * @return null
-     */
     public function getQuotes()
     {
-        $body = $this->getJson();
+        $body = $this->getBody();
 
         if (isset($body->quotes)) {
             return $body->quotes;
@@ -45,13 +37,21 @@ class Response extends GuzzleHttpResponse
         return null;
     }
 
-    public function getJson()
+    /**
+     * @return mixed
+     */
+    public function getBody()
     {
-        return json_encode($this->response->getBody());
+        $body = (string) $this->response->getBody();
+
+        return json_decode($body);
     }
 
-    public function getArray()
+    /**
+     * @return int
+     */
+    public function getCode()
     {
-        return json_decode($this->response->getBody(), true);
+        return $this->response->getStatusCode();
     }
 }
