@@ -28,7 +28,7 @@ class Response extends GuzzleHttpResponse
      */
     public function getBody()
     {
-        return $this->response->getBody();
+        return (string) $this->response->getBody();
     }
 
     /**

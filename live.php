@@ -47,4 +47,4 @@ $payload = [
 $response = $transdirect->simpleQuotes($payload);
 
 echo "<pre>";
-var_dump($response->getQuotes());
+var_dump($response->getBody());
