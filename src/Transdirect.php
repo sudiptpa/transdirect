@@ -25,10 +25,10 @@ class Transdirect
     protected $client;
 
     /**
-     * @param string $token
+     * @param $token
      * @param GuzzleClient $client
      */
-    public function __construct(string $token, GuzzleClient $client = null)
+    public function __construct($token, GuzzleClient $client = null)
     {
         $this->token = $token;
 
