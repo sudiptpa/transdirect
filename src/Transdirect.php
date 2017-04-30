@@ -124,12 +124,12 @@ class Transdirect
     }
 
     /**
-     * @param $parameters
      * @param $booking_id
+     * @param $parameters
      *
      * @return \Sujip\Transdirect\Response
      */
-    public function updateBooking($parameters, $booking_id)
+    public function updateBooking($booking_id, $parameters)
     {
         $uri = sprintf('bookings/%s', $booking_id);
 
@@ -295,7 +295,7 @@ class Transdirect
     {
         $uri = sprintf('orders/%s', $order_id);
 
-        return $this->makeRequest($uri, $parameters, 'delete');
+        return $this->makeRequest($uri, [], 'delete');
     }
 
     /**
