@@ -28,7 +28,7 @@ Here are a few examples on how you can use the package:
 ```php
   $client = new Sujip\Transdirect\Transdirect($apiKey);  
 ```
-Also have a look in the [source code of `Sujip\Transdirect\Transdirect`](https://github.com/sudiptpa/transdirect/blob/master/src/Transdirect.php) to discover the methods you can use. Please also visit [Official REST API documentation](http://docs.transdirectapiv4.apiary.io) for the parameters you need to specify for each end point.
+Also have a look in the [source code of `Sujip\Transdirect\Transdirect`](https://github.com/sudiptpa/transdirect/blob/master/src/Transdirect.php) to discover the methods you can use. You will need to visit [Official REST API documentation](http://docs.transdirectapiv4.apiary.io) for the parameters to specify with each end point.
 
 If you wish to make a direct call to API end point for your own custom implementation, you can use the `makeRequest` method.
 
