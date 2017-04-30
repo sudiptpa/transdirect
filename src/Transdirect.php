@@ -34,7 +34,7 @@ class Transdirect
         $this->client = $client ?: new GuzzleClient([
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Api-Key' => $this->token,
+                'Api-Key'      => $this->token,
             ],
         ]);
     }
@@ -56,7 +56,7 @@ class Transdirect
             $response = $this->client->{$method}($url, $parameters);
         } catch (ClientException $exception) {
             return [
-                'error' => $exception->getMessage(),
+                'error'  => $exception->getMessage(),
                 'status' => $exception->getResponse()->getStatusCode(),
             ];
         }
@@ -208,7 +208,7 @@ class Transdirect
         $uri = 'bookings/locations';
 
         if (isset($page)) {
-            $uri = sprintf($uri . '/page/%s', $page);
+            $uri = sprintf($uri.'/page/%s', $page);
         }
 
         return $this->makeRequest($uri, [], 'get');
