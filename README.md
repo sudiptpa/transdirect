@@ -2,10 +2,6 @@
 
 Transdirect is Australia wide delivering solutions for you, this package covers a minimal PHP implementation of the Transdirect API v4. It contains only the endpoints documented at http://docs.transdirectapiv4.apiary.io.
 
-### Requirements
-
-This package requires PHP >=5.5
-
 ### Installation
 
 You can install the package via composer: [Composer](http://getcomposer.org/).
@@ -33,7 +29,7 @@ Also have a look in the [source code of `Sujip\Transdirect\Transdirect`](https:/
 If you wish to make a direct call to API end point for your own custom implementation, you can use the `makeRequest` method.
 
 ```php
-  $client->makeRequest('end-point', ['body' => json_encode($parameters)]);
+  $client->makeRequest('end-point', $parameters);
 ```
 
 ### Changelog
