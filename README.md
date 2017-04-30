@@ -23,8 +23,26 @@ And run composer to update your dependencies:
     $ curl -s http://getcomposer.org/installer | php
     $ php composer.phar update
 
-### Basic Usage
+### Usage
 
+The first thing you need to do is get the API token from [Transdirect](https://www.transdirect.com.au/), you will need to specify the requesting domain to get valid API response data.
+
+Here are a few examples on how you can use the package:
+
+```php
+  $client = new Sujip\Transdirect\Transdirect($apiKey);  
+```
+Also have a look in the [source code of `Sujip\Transdirect\Transdirect`](https://github.com/sudiptpa/transdirect/blob/master/src/Transdirect.php) to discover the methods you can use.
+
+If you wish to make a direct call to API end point for your own custom implementation, you can use the `makeRequest` method.
+
+```php
+  $client->makeRequest('end-point', ['body' => json_encode($parameters)]);
+```
+
+### Changelog
+
+Please see [CHANGELOG](https://github.com/sudiptpa/transdirect/blob/master/CHANGELOG.md) for more information what has changed recently.
 
 ### Contributing
 
