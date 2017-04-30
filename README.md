@@ -1,21 +1,17 @@
 ## A minimal implementation of Transdirect API v4.
 
-Transdirect is Australia wide delivering solutions for you, this package covers a minimal PHP implementation of the Transdirect API v4. It contains only the endponts documented in http://docs.transdirectapiv4.apiary.io.
+Transdirect is Australia wide delivering solutions for you, this package covers a minimal PHP implementation of the Transdirect API v4. It contains only the endpoints documented at http://docs.transdirectapiv4.apiary.io.
 
 ### Requirements
+
 This package requires PHP >=5.5
 
 ### Installation
 
-This package is installed via [Composer](http://getcomposer.org/). To install, simply add it
-to your `composer.json` file:
+You can install the package via composer: [Composer](http://getcomposer.org/).
 
-```json
-{
-    "require": {
-        "sudiptpa/transdirect": "1.0.x-dev"
-    }
-}
+```
+composer require sudiptpa/transdirect
 ```
 
 And run composer to update your dependencies:
