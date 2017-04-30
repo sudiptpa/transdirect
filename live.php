@@ -4,15 +4,18 @@ use Sujip\Transdirect\Transdirect;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$transdirect = new Transdirect('54930ccecc794e88649bdfa28a8ead99');
+$transdirect = new Transdirect('1f5b8d2ff0820c7fbc24a8ba824e01a8');
 
 $transdirect->sandbox();
 
 $payload = [
     "declared_value" => "1000.00",
+    "referrer" => "API",
+    "requesting_site" => "http://www.test.com.au",
+    "tailgate_pickup" => true,
+    "tailgate_delivery" => true,
     "items" => [
-        [
-            "weight" => "38.63",
+        ["weight" => "38.63",
             "height" => "0.25",
             "width" => "1.65",
             "length" => "3.32",
@@ -20,7 +23,6 @@ $payload = [
             "description" => "carton",
         ],
         [
-
             "weight" => "39.63",
             "height" => "1.25",
             "width" => "2.65",
@@ -30,14 +32,25 @@ $payload = [
         ],
     ],
     "sender" => [
+        "address" => "21 Kirksway Place",
+        "company_name" => "Element 7 Digital Pty. Ltd.",
+        "email" => "sudiptpa@gmail.com",
+        "name" => "Sujip Thapa",
         "postcode" => "2000",
+        "phone" => 123456789,
+        "state" => "",
         "suburb" => "SYDNEY",
         "type" => "business",
         "country" => "AU",
     ],
     "receiver" => [
-
+        "address" => "216 Moggill Rd",
+        "company_name" => "Digital Thinker Co.",
+        "email" => "support@digitalthinker.co",
+        "name" => "John Smith",
         "postcode" => "3000",
+        "phone" => 123456789,
+        "state" => "",
         "suburb" => "MELBOURNE",
         "type" => "business",
         "country" => "AU",
@@ -58,13 +71,51 @@ $item = [
     "description" => "carton",
 ];
 
-$response = $transdirect->simpleQuotes($payload);
-$response = $transdirect->searchLocations('highton');
+$create_order = [
+    "transdirect_order_id" => 12345,
+    "order_id" => "4444",
+    "goods_summary" => "This is a test",
+    "goods_dump" => "Another test",
+    "imported_from" => "Woocommerce",
+    "purchased_time" => "2015-06-01T16 =>06 =>52+1000",
+    "sale_price" => 10.2,
+    "selected_courier" => "toll",
+    "paid_time" => "2015-06-01T16 =>06 =>52+1000",
+    "buyer_name" => "John Doe",
+    "buyer_email" => "john@testemail.com.au",
+    "delivery" => [
+        "name" => "John Doe",
+        "email" => "",
+        "phone" => "123456789",
+        "address" => "216 Moggill Rd",
+    ],
+];
+
+$update_order = [
+    "transdirect_order_id" => 12345,
+    "order_id" => "4444",
+    "goods_summary" => "This is a test",
+    "goods_dump" => "Another test",
+    "imported_from" => "Woocommerce",
+    "purchased_time" => "2015-06-01T16:06:52+1000",
+    "sale_price" => 10.2,
+    "selected_courier" => "toll",
+    "paid_time" => "2015-06-01T16:06:52+1000",
+    "buyer_name" => "John Doe",
+    "buyer_email" => "john@testemail.com.au",
+    "delivery" => [
+        "name" => "John Doe",
+        "email" => "",
+        "phone" => "123456789",
+        "address" => "216 Moggill Rd",
+    ],
+];
+
+$response = $transdirect->createBooking($payload);
 
 echo "<pre>";
 
-print_r($response->getBody());
-
+print_r($response->getQuotes());
 
 //only numbers
 // $output = preg_replace( '/[^0-9]/', '', $string );

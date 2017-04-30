@@ -23,18 +23,42 @@ class Response extends GuzzleHttpResponse
         $this->response = $response;
     }
 
-    /**
-     * @return mixed
-     */
+    public function getBookingId()
+    {
+        $booking = $this->getBody();
+
+        return isset($booking->id) ? $booking->id : null;
+    }
+
     public function getQuotes()
     {
-        $body = $this->getBody();
+        $quotes = [];
+        $booking = $this->getBody();
 
-        if (isset($body->quotes)) {
-            return $body->quotes;
+        if (!isset($booking->quotes)) {
+            return null;
         }
 
-        return null;
+        if (is_object($booking->quotes)) {
+            foreach ($booking->quotes as $key => $quote) {
+                $quotes[] = [
+                    'booking_id' => $this->getBookingId(),
+                    'provider' => $key,
+                    'name_original' => str_replace('_', '  ', $key),
+                    'name_formatted' => sprintf('%s - %s [%s]', ucwords(str_replace('_', '  ', $key)), ucwords($quote->service), $quote->transit_time),
+                    'total' => $quote->total,
+                    'fee' => $quote->fee,
+                    'price_insurance_ex' => $quote->price_insurance_ex,
+                    'insured_amount' => (float) $quote->insured_amount,
+                    'service' => $quote->service,
+                    'transit_time' => $quote->transit_time,
+                    'pickup_dates' => $quote->pickup_dates,
+                    'pickup_time' => $quote->pickup_time,
+                ];
+            }
+        }
+
+        return json_encode($quotes);
     }
 
     /**
