@@ -77,7 +77,6 @@ class Transdirect
 
     /**
      * @param array $parameters
-     * @return string
      * @return \Sujip\Transdirect\Response
      */
     public function simpleQuotes(array $parameters)
@@ -87,7 +86,6 @@ class Transdirect
 
     /**
      * @param $parameters
-     * @return mixed
      * @return \Sujip\Transdirect\Response
      */
     public function createBooking($parameters)
