@@ -7,8 +7,7 @@ use GuzzleHttp\Exception\ClientException;
 use Sujip\Transdirect\Exceptions\BadRequest;
 
 /**
- * Class Transdirect
- * @package Sujip\Transdirect
+ * Class Transdirect.
  */
 class Transdirect
 {
@@ -35,7 +34,7 @@ class Transdirect
         $this->client = $client ?: new GuzzleClient([
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Api-Key' => $this->token,
+                'Api-Key'      => $this->token,
             ],
         ]);
     }
@@ -44,6 +43,7 @@ class Transdirect
      * @param $uri
      * @param array $parameters
      * @param $method
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function makeRequest($uri, array $parameters = [], $method = 'post')
@@ -54,7 +54,7 @@ class Transdirect
             $response = $this->client->{$method}($url, $parameters);
         } catch (ClientException $exception) {
             return [
-                'error' => $exception->getMessage(),
+                'error'  => $exception->getMessage(),
                 'status' => $exception->getResponse()->getStatusCode(),
             ];
         }
@@ -64,6 +64,7 @@ class Transdirect
 
     /**
      * @param ClientException $exception
+     *
      * @return mixed
      */
     protected function throwException(ClientException $exception)
@@ -77,6 +78,7 @@ class Transdirect
 
     /**
      * @param array $parameters
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function simpleQuotes(array $parameters)
@@ -86,6 +88,7 @@ class Transdirect
 
     /**
      * @param $parameters
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function createBooking($parameters)
@@ -96,6 +99,7 @@ class Transdirect
     /**
      * @param $since
      * @param null $sort
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function getBookings($since = null, $sort = null)
@@ -107,6 +111,7 @@ class Transdirect
 
     /**
      * @param $booking_id
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function getSingleBooking($booking_id)
@@ -119,6 +124,7 @@ class Transdirect
     /**
      * @param $parameters
      * @param $booking_id
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function updateBooking($parameters, $booking_id)
@@ -130,6 +136,7 @@ class Transdirect
 
     /**
      * @param $booking_id
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function removeBooking($booking_id)
@@ -142,6 +149,7 @@ class Transdirect
     /**
      * @param $booking_id
      * @param $parameters
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function confirmBooking($booking_id, $parameters)
@@ -153,6 +161,7 @@ class Transdirect
 
     /**
      * @param $booking_id
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function trackBooking($booking_id)
@@ -164,6 +173,7 @@ class Transdirect
 
     /**
      * @param $booking_id
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function getBookingItems($booking_id)
@@ -176,6 +186,7 @@ class Transdirect
     /**
      * @param $booking_id
      * @param $parameters
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function addItemInBooking($booking_id, $parameters)
@@ -187,6 +198,7 @@ class Transdirect
 
     /**
      * @param $page
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function getLocations($page = null)
@@ -194,7 +206,7 @@ class Transdirect
         $uri = 'bookings/locations';
 
         if (isset($page)) {
-            $uri = sprintf($uri . "/page/%s", $page);
+            $uri = sprintf($uri.'/page/%s', $page);
         }
 
         return $this->makeRequest($uri, [], 'get');
@@ -202,6 +214,7 @@ class Transdirect
 
     /**
      * @param $query
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function searchLocations($query = null)
@@ -213,6 +226,7 @@ class Transdirect
 
     /**
      * @param $query
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function getByPostcode($query)
@@ -224,6 +238,7 @@ class Transdirect
 
     /**
      * @param $parameters
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function createOrder($parameters)
@@ -234,6 +249,7 @@ class Transdirect
     /**
      * @param $since
      * @param null $sort
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function getOrders($since = null, $sort = null)
@@ -245,6 +261,7 @@ class Transdirect
 
     /**
      * @param $order_id
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function getOrder($order_id)
@@ -257,6 +274,7 @@ class Transdirect
     /**
      * @param $order_id
      * @param $parameters
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function updateOrder($order_id, $parameters)
@@ -268,6 +286,7 @@ class Transdirect
 
     /**
      * @param $order_id
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function removeOrder($order_id)
@@ -279,6 +298,7 @@ class Transdirect
 
     /**
      * @param $booking_id
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function getPdfLabel($booking_id)
@@ -290,6 +310,7 @@ class Transdirect
 
     /**
      * @param $booking_id
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function getInvoice($booking_id)
@@ -301,6 +322,7 @@ class Transdirect
 
     /**
      * @param $booking_id
+     *
      * @return \Sujip\Transdirect\Response
      */
     public function getTntLabel($booking_id)
