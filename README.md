@@ -1,5 +1,6 @@
-## Transdirect
-A minimal implementation of API v4 for Transdirect – Delivering Solutions for you.
+## A minimal implementation of Transdirect API v4.
+
+Transdirect is Australia wide delivering solutions for you, this package covers a minimal PHP implementation of the Transdirect API v4. It contains only the endponts documented in http://docs.transdirectapiv4.apiary.io.
 
 ### Requirements
 This package requires PHP >=5.5
