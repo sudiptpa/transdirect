@@ -34,7 +34,7 @@ class Transdirect
         $this->client = $client ?: new GuzzleClient([
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Api-Key'      => $this->token,
+                'Api-Key' => $this->token,
             ],
         ]);
     }
@@ -50,11 +50,13 @@ class Transdirect
     {
         $url = $this->getEndpoint($uri);
 
+        $parameters = ['body' => json_encode($parameters)];
+
         try {
             $response = $this->client->{$method}($url, $parameters);
         } catch (ClientException $exception) {
             return [
-                'error'  => $exception->getMessage(),
+                'error' => $exception->getMessage(),
                 'status' => $exception->getResponse()->getStatusCode(),
             ];
         }
@@ -83,7 +85,7 @@ class Transdirect
      */
     public function simpleQuotes(array $parameters)
     {
-        return $this->makeRequest('quotes', ['body' => json_encode($parameters)]);
+        return $this->makeRequest('quotes', $parameters);
     }
 
     /**
@@ -93,7 +95,7 @@ class Transdirect
      */
     public function createBooking($parameters)
     {
-        return $this->makeRequest('bookings', ['body' => json_encode($parameters)]);
+        return $this->makeRequest('bookings', $parameters);
     }
 
     /**
@@ -131,7 +133,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s', $booking_id);
 
-        return $this->makeRequest($uri, ['body' => json_encode($parameters)], 'put');
+        return $this->makeRequest($uri, $parameters, 'put');
     }
 
     /**
@@ -156,7 +158,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s/confirm', $booking_id);
 
-        return $this->makeRequest($uri, ['body' => json_encode($parameters)]);
+        return $this->makeRequest($uri, $parameters);
     }
 
     /**
@@ -193,7 +195,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s/items', $booking_id);
 
-        return $this->makeRequest($uri, ['body' => json_encode($parameters)]);
+        return $this->makeRequest($uri, $parameters);
     }
 
     /**
@@ -206,7 +208,7 @@ class Transdirect
         $uri = 'bookings/locations';
 
         if (isset($page)) {
-            $uri = sprintf($uri.'/page/%s', $page);
+            $uri = sprintf($uri . '/page/%s', $page);
         }
 
         return $this->makeRequest($uri, [], 'get');
@@ -243,7 +245,7 @@ class Transdirect
      */
     public function createOrder($parameters)
     {
-        return $this->makeRequest('orders', ['body' => json_encode($parameters)]);
+        return $this->makeRequest('orders', $parameters);
     }
 
     /**
@@ -281,7 +283,7 @@ class Transdirect
     {
         $uri = sprintf('orders/%s', $order_id);
 
-        return $this->makeRequest($uri, ['body' => json_encode($parameters)], 'put');
+        return $this->makeRequest($uri, $parameters, 'put');
     }
 
     /**
@@ -293,7 +295,7 @@ class Transdirect
     {
         $uri = sprintf('orders/%s', $order_id);
 
-        return $this->makeRequest($uri, ['body' => json_encode($parameters)], 'delete');
+        return $this->makeRequest($uri, $parameters, 'delete');
     }
 
     /**
