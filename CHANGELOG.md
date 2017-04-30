@@ -1,3 +1,5 @@
-#### 1.0.0 - 2017-04-30
+# Changelog
 
-Inital release
+### 1.0.0 - 2017-04-30
+
+- Inital release
