@@ -22,12 +22,10 @@ And run composer to update your dependencies:
     $ curl -s http://getcomposer.org/installer | php
     $ php composer.phar update
 
-## Basic Usage
-
-......................
+### Basic Usage
 
 
-##Contributing
+### Contributing
 
 Contributions are **welcome** and will be fully **credited**.
 
@@ -35,13 +33,13 @@ Contributions can be made via a Pull Request on [Github](https://github.com/sudi
 
 
 
-##Testing
+### Testing
 
 If you would like to look at the real time response comming from live or mock server with transdirect REST API endpoints browse http://docs.transdirectapiv4.apiary.io
 
 
 
-## Support
+### Support
 
 If you are having general issues with the package, feel free to drop me and email [sudiptpa@gmail.com](mailto:sudiptpa@gmail.com)
 
