@@ -24,7 +24,7 @@ trait Endpoint
     protected function getEndpoint($segment = null)
     {
         return $this->sandbox ?
-            'https://private-anon-5e1c356539-transdirectapiv4.apiary-mock.com/api/' . $segment :
-            'https://www.transdirect.com.au/api/' . $segment;
+            'https://private-anon-5e1c356539-transdirectapiv4.apiary-mock.com/api/'.$segment :
+            'https://www.transdirect.com.au/api/'.$segment;
     }
 }

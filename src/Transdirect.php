@@ -139,7 +139,7 @@ class Transdirect extends Request
         $uri = 'locations';
 
         if (isset($page)) {
-            $uri = sprintf($uri . '/page/%s', $page);
+            $uri = sprintf($uri.'/page/%s', $page);
         }
 
         return $this->make($uri, [], 'get');

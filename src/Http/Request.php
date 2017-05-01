@@ -7,7 +7,6 @@ use GuzzleHttp\ClientInterface;
 use Sujip\Transdirect\Endpoint;
 use Sujip\Transdirect\Exceptions\BadRequest;
 use Sujip\Transdirect\Response;
-use Sujip\Transdirect\Transdirect;
 
 /**
  * This is the client class.
@@ -35,7 +34,7 @@ class Request
     /**
      * Create a new request instance.
      *
-     * @param string $token
+     * @param string             $token
      * @param \GuzzleHttp\Client $client
      *
      * @return void
@@ -47,14 +46,14 @@ class Request
         $this->client = $client ?: new Client([
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Api-Key' => $this->token,
+                'Api-Key'      => $this->token,
             ],
         ]);
     }
 
     /**
      * @param string $uri
-     * @param array $parameters
+     * @param array  $parameters
      * @param string $method
      *
      * @return \Sujip\Transdirect\Response
