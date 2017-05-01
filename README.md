@@ -1,6 +1,6 @@
 ## A minimal implementation of Transdirect API v4.
 
-Transdirect is Australia wide delivering solutions for you, this package covers a minimal PHP implementation of the Transdirect API v4. It contains only the endpoints documented at http://docs.transdirectapiv4.apiary.io.
+Transdirect is Australia wide delivering solutions for you, this package covers a minimal PHP implementation of the Transdirect REST API. It contains only the endpoints documented at http://docs.transdirectapiv4.apiary.io.
 
 ### Installation
 
@@ -29,7 +29,7 @@ Also have a look in the [source code of `Sujip\Transdirect\Transdirect`](https:/
 If you wish to make a direct call to API end point for your own custom implementation, you can use the `makeRequest` method.
 
 ```php
-  $client->makeRequest('end-point', $parameters);
+  $client->make('end-point', $parameters);
 ```
 
 ### Changelog
