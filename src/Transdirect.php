@@ -2,82 +2,13 @@
 
 namespace Sujip\Transdirect;
 
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\ClientException;
-use Sujip\Transdirect\Exceptions\BadRequest;
+use Sujip\Transdirect\Http\Request;
 
 /**
  * Class Transdirect.
  */
-class Transdirect
+class Transdirect extends Request
 {
-    use Endpoint;
-
-    /**
-     * @var string
-     */
-    protected $token;
-
-    /**
-     * @var \GuzzleHttp\Client
-     */
-    protected $client;
-
-    /**
-     * @param $token
-     * @param GuzzleClient $client
-     */
-    public function __construct($token, GuzzleClient $client = null)
-    {
-        $this->token = $token;
-
-        $this->client = $client ?: new GuzzleClient([
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Api-Key'      => $this->token,
-            ],
-        ]);
-    }
-
-    /**
-     * @param $uri
-     * @param array $parameters
-     * @param $method
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function makeRequest($uri, array $parameters = [], $method = 'post')
-    {
-        $url = $this->getEndpoint($uri);
-
-        $parameters = ['body' => json_encode($parameters)];
-
-        try {
-            $response = $this->client->{$method}($url, $parameters);
-        } catch (ClientException $exception) {
-            return [
-                'error'  => $exception->getMessage(),
-                'status' => $exception->getResponse()->getStatusCode(),
-            ];
-        }
-
-        return new Response($response);
-    }
-
-    /**
-     * @param ClientException $exception
-     *
-     * @return mixed
-     */
-    protected function throwException(ClientException $exception)
-    {
-        if (in_array($exception->getResponse()->getStatusCode(), [400, 409])) {
-            return new BadRequest($exception->getResponse());
-        }
-
-        return $exception;
-    }
-
     /**
      * @param array $parameters
      *
@@ -85,7 +16,7 @@ class Transdirect
      */
     public function simpleQuotes(array $parameters)
     {
-        return $this->makeRequest('quotes', $parameters);
+        return $this->make('quotes', $parameters);
     }
 
     /**
@@ -95,7 +26,7 @@ class Transdirect
      */
     public function createBooking($parameters)
     {
-        return $this->makeRequest('bookings', $parameters);
+        return $this->make('bookings', $parameters);
     }
 
     /**
@@ -108,7 +39,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/?since=%s&sort=%s', $since, $sort);
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -120,7 +51,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s', $booking_id);
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -133,7 +64,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s', $booking_id);
 
-        return $this->makeRequest($uri, $parameters, 'put');
+        return $this->make($uri, $parameters, 'put');
     }
 
     /**
@@ -145,7 +76,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s', $booking_id);
 
-        return $this->makeRequest($uri, [], 'delete');
+        return $this->make($uri, [], 'delete');
     }
 
     /**
@@ -158,7 +89,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s/confirm', $booking_id);
 
-        return $this->makeRequest($uri, $parameters);
+        return $this->make($uri, $parameters);
     }
 
     /**
@@ -170,7 +101,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/track/%s', $booking_id);
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -182,7 +113,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s/items', $booking_id);
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -195,7 +126,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s/items', $booking_id);
 
-        return $this->makeRequest($uri, $parameters);
+        return $this->make($uri, $parameters);
     }
 
     /**
@@ -205,13 +136,13 @@ class Transdirect
      */
     public function getLocations($page = null)
     {
-        $uri = 'bookings/locations';
+        $uri = 'locations';
 
         if (isset($page)) {
             $uri = sprintf($uri.'/page/%s', $page);
         }
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -221,9 +152,9 @@ class Transdirect
      */
     public function searchLocations($query = null)
     {
-        $uri = sprintf('bookings/locations?q=%s', $query);
+        $uri = sprintf('locations?q=%s', $query);
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -235,7 +166,7 @@ class Transdirect
     {
         $uri = sprintf('locations/postcode/%s', $query);
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -245,7 +176,7 @@ class Transdirect
      */
     public function createOrder($parameters)
     {
-        return $this->makeRequest('orders', $parameters);
+        return $this->make('orders', $parameters);
     }
 
     /**
@@ -258,7 +189,7 @@ class Transdirect
     {
         $uri = sprintf('orders/?since=%s&sort=%s', $since, $sort);
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -270,7 +201,7 @@ class Transdirect
     {
         $uri = sprintf('orders/%s', $order_id);
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -283,7 +214,7 @@ class Transdirect
     {
         $uri = sprintf('orders/%s', $order_id);
 
-        return $this->makeRequest($uri, $parameters, 'put');
+        return $this->make($uri, $parameters, 'put');
     }
 
     /**
@@ -295,7 +226,7 @@ class Transdirect
     {
         $uri = sprintf('orders/%s', $order_id);
 
-        return $this->makeRequest($uri, [], 'delete');
+        return $this->make($uri, [], 'delete');
     }
 
     /**
@@ -307,7 +238,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s/label', $booking_id);
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -319,7 +250,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s/invoice', $booking_id);
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -331,7 +262,7 @@ class Transdirect
     {
         $uri = sprintf('bookings/%s/tntregeneralabel', $booking_id);
 
-        return $this->makeRequest($uri, [], 'get');
+        return $this->make($uri, [], 'get');
     }
 
     /**
@@ -339,7 +270,7 @@ class Transdirect
      */
     public function getCouriers()
     {
-        return $this->makeRequest('couriers', [], 'get');
+        return $this->make('couriers', [], 'get');
     }
 
     /**
@@ -347,6 +278,6 @@ class Transdirect
      */
     public function getMember()
     {
-        return $this->makeRequest('member', [], 'get');
+        return $this->make('member', [], 'get');
     }
 }

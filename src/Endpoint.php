@@ -5,7 +5,9 @@ namespace Sujip\Transdirect;
 trait Endpoint
 {
     /**
-     * @var mixed
+     * Indicates if the environment is sandbox / live.
+     *
+     * @var bool
      */
     private $sandbox = false;
 

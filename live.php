@@ -111,11 +111,8 @@ $update_order = [
     ],
 ];
 
-$response = $transdirect->createBooking($payload);
+$response = $transdirect->simpleQuotes($payload);
 
 echo '<pre>';
 
-print_r($response->getQuotes());
-
-//only numbers
-// $output = preg_replace( '/[^0-9]/', '', $string );
+print_r($response->toJson());

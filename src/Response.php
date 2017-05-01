@@ -10,38 +10,61 @@ use GuzzleHttp\Message\Response as GuzzleHttpResponse;
 class Response extends GuzzleHttpResponse
 {
     /**
-     * @var GuzzleHttp\Message\Response
+     * The guzzle http client response.
+     *
+     * @var \GuzzleHttp\Message\Response
      */
     protected $response;
 
     /**
+     * Create a new response instance.
+     *
      * @param GuzzleHttpResponse $response
+     *
+     * @return void
      */
     public function __construct(GuzzleHttpResponse $response)
     {
         $this->response = $response;
     }
 
-    public function getBookingId()
+    public function getId()
     {
-        $booking = $this->getBody();
+        $object = $this->toObject();
 
-        return isset($booking->id) ? $booking->id : null;
+        return isset($object->id) ? $object->id : null;
     }
 
-    public function getQuotes()
+    /**
+     * @return object
+     */
+    public function getItems()
     {
-        $quotes = [];
-        $booking = $this->getBody();
+        $object = $this->toObject();
 
-        if (!isset($booking->quotes)) {
+        if (!isset($object->items)) {
             return;
         }
 
-        if (is_object($booking->quotes)) {
-            foreach ($booking->quotes as $key => $quote) {
+        return $object->items;
+    }
+
+    /**
+     * @return array
+     */
+    public function getQuotes()
+    {
+        $quotes = [];
+        $object = $this->toObject();
+
+        if (!isset($object->quotes)) {
+            return;
+        }
+
+        if (is_object($object->quotes)) {
+            foreach ($object->quotes as $key => $quote) {
                 $quotes[] = [
-                    'booking_id'         => $this->getBookingId(),
+                    'booking_id'         => $this->getId(),
                     'provider'           => $key,
                     'name_original'      => str_replace('_', '  ', $key),
                     'name_formatted'     => sprintf('%s - %s [%s]', ucwords(str_replace('_', '  ', $key)), ucwords($quote->service), $quote->transit_time),
@@ -57,13 +80,28 @@ class Response extends GuzzleHttpResponse
             }
         }
 
-        return json_encode($quotes);
+        return $quotes;
+    }
+
+    public function toJson()
+    {
+        return (string) $body = (string) $this->response->getBody();
     }
 
     /**
      * @return mixed
      */
-    public function getBody()
+    public function toArray()
+    {
+        $body = (string) $this->response->getBody();
+
+        return json_decode($body, true);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function toObject()
     {
         $body = (string) $this->response->getBody();
 
