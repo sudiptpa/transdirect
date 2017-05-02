@@ -29,7 +29,7 @@ Also have a look in the [source code of `Sujip\Transdirect\Transdirect`](https:/
 If you wish to make a direct call to API end point for your own custom implementation, you can use the `makeRequest` method.
 
 ```php
-    $payload = [
+    $parameters = [
         'declared_value' => '1000.00',
         'referrer' => 'API',
         'requesting_site' => 'http://www.test.com.au',
