@@ -43,12 +43,7 @@ class Request
     {
         $this->token = $token;
 
-        $this->client = $client ?: new Client([
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Api-Key'      => $this->token,
-            ],
-        ]);
+        $this->client = $client ?: new Client();
     }
 
     /**
@@ -62,7 +57,13 @@ class Request
     {
         $url = $this->getEndpoint($uri);
 
-        $parameters = ['body' => $parameters];
+        $parameters = [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Api-Key'      => $this->token,
+            ],
+            'body' => json_encode($parameters),
+        ];
 
         try {
             $response = $this->client->{$method}($url, $parameters);
