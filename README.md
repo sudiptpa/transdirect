@@ -29,7 +29,60 @@ Also have a look in the [source code of `Sujip\Transdirect\Transdirect`](https:/
 If you wish to make a direct call to API end point for your own custom implementation, you can use the `makeRequest` method.
 
 ```php
-  $client->make('end-point', $parameters);
+    $payload = [
+        'declared_value' => '1000.00',
+        'referrer' => 'API',
+        'requesting_site' => 'http://www.test.com.au',
+        'tailgate_pickup' => true,
+        'tailgate_delivery' => true,
+        'items' => [
+            ['weight' => '38.63',
+                'height' => '0.25',
+                'width' => '1.65',
+                'length' => '3.32',
+                'quantity' => 1,
+                'description' => 'carton',
+            ],
+            [
+                'weight' => '39.63',
+                'height' => '1.25',
+                'width' => '2.65',
+                'length' => '4.32',
+                'quantity' => 2,
+                'description' => 'carton',
+            ],
+        ],
+        'sender' => [
+            'address' => '21 Kirksway Place',
+            'company_name' => 'Test Company',
+            'email' => 'sender@test.com',
+            'name' => 'Sujip Thapa',
+            'postcode' => '2000',
+            'phone' => 123456789,
+            'state' => '',
+            'suburb' => 'SYDNEY',
+            'type' => 'business',
+            'country' => 'AU',
+        ],
+        'receiver' => [
+            'address' => '216 Moggill Rd',
+            'company_name' => 'Test Receiver',
+            'email' => 'receiver@test.com',
+            'name' => 'John Smith',
+            'postcode' => '3000',
+            'phone' => 123456789,
+            'state' => '',
+            'suburb' => 'MELBOURNE',
+            'type' => 'business',
+            'country' => 'AU',
+        ],
+    ];
+    
+  $response = $client->createBooking($parameters);
+  $quotes = $response->getQuotes();
+  $josn = $response->toJson();
+  $bookingId = $response->getId();
+  $statusCode = $response->getCode();
 ```
 
 ### Changelog
