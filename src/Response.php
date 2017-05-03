@@ -67,7 +67,7 @@ class Response extends GuzzleHttpResponse
                     '%s - %s [%s]',
                     ucwords(str_replace('_', '  ', $key)),
                     ucwords($quote->service), $quote->transit_time
-                    );
+                );
                 $quotes[] = [
                     'booking_id'         => $this->getId(),
                     'provider'           => $key,
