@@ -66,7 +66,8 @@ class Response extends GuzzleHttpResponse
                 $formatted = sprintf(
                     '%s - %s [%s]',
                     ucwords(str_replace('_', '  ', $key)),
-                    ucwords($quote->service), $quote->transit_time
+                    ucwords($quote->service),
+                    $quote->transit_time
                 );
                 $quotes[] = [
                     'booking_id'         => $this->getId(),
