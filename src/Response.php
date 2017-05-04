@@ -63,11 +63,17 @@ class Response extends GuzzleHttpResponse
 
         if (is_object($object->quotes)) {
             foreach ($object->quotes as $key => $quote) {
+                $formatted = sprintf(
+                    '%s - %s [%s]',
+                    ucwords(str_replace('_', '  ', $key)),
+                    ucwords($quote->service),
+                    $quote->transit_time
+                );
                 $quotes[] = [
                     'booking_id'         => $this->getId(),
                     'provider'           => $key,
                     'name_original'      => str_replace('_', '  ', $key),
-                    'name_formatted'     => sprintf('%s - %s [%s]', ucwords(str_replace('_', '  ', $key)), ucwords($quote->service), $quote->transit_time),
+                    'name_formatted'     => str_replace('Tnt', 'TNT', $formatted),
                     'total'              => $quote->total,
                     'fee'                => $quote->fee,
                     'price_insurance_ex' => $quote->price_insurance_ex,
@@ -85,7 +91,7 @@ class Response extends GuzzleHttpResponse
 
     public function toJson()
     {
-        return (string) $body = (string) $this->response->getBody();
+        return (string) $this->response->getBody();
     }
 
     /**
@@ -93,9 +99,7 @@ class Response extends GuzzleHttpResponse
      */
     public function toArray()
     {
-        $body = (string) $this->response->getBody();
-
-        return json_decode($body, true);
+        return json_decode($this->toJson(), true);
     }
 
     /**
@@ -103,9 +107,7 @@ class Response extends GuzzleHttpResponse
      */
     public function toObject()
     {
-        $body = (string) $this->response->getBody();
-
-        return json_decode($body);
+        return json_decode($this->toJson());
     }
 
     /**
