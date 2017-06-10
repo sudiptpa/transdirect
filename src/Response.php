@@ -6,7 +6,6 @@ use GuzzleHttp\Message\Response as GuzzleHttpResponse;
 
 /**
  * Class Response.
- * @package Sujip\Transdirect
  */
 class Response extends GuzzleHttpResponse
 {
@@ -71,19 +70,19 @@ class Response extends GuzzleHttpResponse
                     $quote->transit_time
                 );
                 $quotes[] = [
-                    'booking_id' => $this->getId(),
-                    'provider' => $key,
-                    'name_original' => $this->parse($key),
-                    'name_formatted' => $this->parse($formatted),
-                    'total' => $quote->total,
-                    'fee' => $quote->fee,
+                    'booking_id'         => $this->getId(),
+                    'provider'           => $key,
+                    'name_original'      => $this->parse($key),
+                    'name_formatted'     => $this->parse($formatted),
+                    'total'              => $quote->total,
+                    'fee'                => $quote->fee,
                     'price_insurance_ex' => $quote->price_insurance_ex,
-                    'insured_amount' => (float) $quote->insured_amount,
-                    'additional' => 0,
-                    'service' => $quote->service,
-                    'transit_time' => $quote->transit_time,
-                    'pickup_dates' => $quote->pickup_dates,
-                    'pickup_time' => $quote->pickup_time,
+                    'insured_amount'     => (float) $quote->insured_amount,
+                    'additional'         => 0,
+                    'service'            => $quote->service,
+                    'transit_time'       => $quote->transit_time,
+                    'pickup_dates'       => $quote->pickup_dates,
+                    'pickup_time'        => $quote->pickup_time,
                 ];
             }
         }
