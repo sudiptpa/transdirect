@@ -6,6 +6,7 @@ use GuzzleHttp\Message\Response as GuzzleHttpResponse;
 
 /**
  * Class Response.
+ * @package Sujip\Transdirect
  */
 class Response extends GuzzleHttpResponse
 {
@@ -65,23 +66,24 @@ class Response extends GuzzleHttpResponse
             foreach ($object->quotes as $key => $quote) {
                 $formatted = sprintf(
                     '%s - %s [%s]',
-                    ucwords(str_replace('_', '  ', $key)),
+                    ucwords(str_replace('_', ' ', $key)),
                     ucwords($quote->service),
                     $quote->transit_time
                 );
                 $quotes[] = [
-                    'booking_id'         => $this->getId(),
-                    'provider'           => $key,
-                    'name_original'      => str_replace('_', '  ', $key),
-                    'name_formatted'     => str_replace('Tnt', 'TNT', $formatted),
-                    'total'              => $quote->total,
-                    'fee'                => $quote->fee,
+                    'booking_id' => $this->getId(),
+                    'provider' => $key,
+                    'name_original' => $this->parse($key),
+                    'name_formatted' => $this->parse($formatted),
+                    'total' => $quote->total,
+                    'fee' => $quote->fee,
                     'price_insurance_ex' => $quote->price_insurance_ex,
-                    'insured_amount'     => (float) $quote->insured_amount,
-                    'service'            => $quote->service,
-                    'transit_time'       => $quote->transit_time,
-                    'pickup_dates'       => $quote->pickup_dates,
-                    'pickup_time'        => $quote->pickup_time,
+                    'insured_amount' => (float) $quote->insured_amount,
+                    'additional' => 0,
+                    'service' => $quote->service,
+                    'transit_time' => $quote->transit_time,
+                    'pickup_dates' => $quote->pickup_dates,
+                    'pickup_time' => $quote->pickup_time,
                 ];
             }
         }
@@ -116,5 +118,15 @@ class Response extends GuzzleHttpResponse
     public function getCode()
     {
         return $this->response->getStatusCode();
+    }
+
+    /**
+     * @param $string
+     */
+    public function parse($string)
+    {
+        $string = str_replace('_', ' ', $string);
+
+        return str_replace('Tnt', 'TNT', $string);
     }
 }

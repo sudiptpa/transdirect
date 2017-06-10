@@ -72,7 +72,7 @@ class Request
                 return new BadRequest($exception->getResponse());
             }
 
-            return $exceptbion;
+            return $exception;
         }
 
         return new Response($response);
