@@ -36,8 +36,6 @@ class Request
      *
      * @param string             $token
      * @param \GuzzleHttp\Client $client
-     *
-     * @return void
      */
     public function __construct($token, ClientInterface $client = null)
     {
@@ -60,7 +58,7 @@ class Request
         $parameters = [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Api-Key'      => $this->token,
+                'Api-Key' => $this->token,
             ],
             'body' => json_encode($parameters),
         ];

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Transdirect Test Suite" tests="1" assertions="1" failures="0" errors="0" time="0.011505">
+    <testsuite name="Sujip\Transdirect\Test\TransdirectTest" file="/var/www/html/packages/transdirect/tests/TransdirectTest.php" tests="1" assertions="1" failures="0" errors="0" time="0.011505">
+      <testcase name="testInstanceOf" class="Sujip\Transdirect\Test\TransdirectTest" file="/var/www/html/packages/transdirect/tests/TransdirectTest.php" line="11" assertions="1" time="0.011505"/>
+    </testsuite>
+  </testsuite>
+</testsuites>
