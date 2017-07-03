@@ -21,6 +21,7 @@ class TransdirectTest extends TestCase
      * @param $response
      * @param $endpoint
      * @param $parameters
+     *
      * @return mixed
      */
     private function mockGuzzleRequest($response, $endpoint, $parameters)
