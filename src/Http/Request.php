@@ -58,7 +58,7 @@ class Request
         $parameters = [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Api-Key' => $this->token,
+                'Api-Key'      => $this->token,
             ],
             'body' => json_encode($parameters),
         ];
