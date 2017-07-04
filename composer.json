@@ -32,5 +32,13 @@
       "psr-4":{
          "Sujip\\Transdirect\\":"src/"
       }
-   }
+   },
+   "autoload-dev": {
+        "psr-4": {
+            "Sujip\\Transdirect\\Test\\": "tests"
+        }
+    },
+   "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
 }
