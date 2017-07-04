@@ -1,9 +1,10 @@
 ## A minimal implementation of Transdirect API v4.
 
+[![Build Status](https://travis-ci.org/sudiptpa/transdirect.svg?branch=master)](https://travis-ci.org/sudiptpa/transdirect)
 [![StyleCI](https://styleci.io/repos/89677820/shield?branch=master)](https://styleci.io/repos/89677820)
-[![Latest Stable Version](https://poser.pugx.org/sudiptpa/transdirect/v/stable?format=flat-square)](https://packagist.org/packages/sudiptpa/transdirect)
-[![Total Downloads](https://poser.pugx.org/sudiptpa/transdirect/downloads?format=flat-square)](https://packagist.org/packages/sudiptpa/transdirect)
-[![License](https://poser.pugx.org/sudiptpa/transdirect/license?format=flat-square)](https://packagist.org/packages/sudiptpa/transdirect)
+[![Latest Stable Version](https://poser.pugx.org/sudiptpa/transdirect/v/stable?format=flat)](https://packagist.org/packages/sudiptpa/transdirect)
+[![Total Downloads](https://poser.pugx.org/sudiptpa/transdirect/downloads?format=flat)](https://packagist.org/packages/sudiptpa/transdirect)
+[![License](https://poser.pugx.org/sudiptpa/transdirect/license?format=flat)](https://packagist.org/packages/sudiptpa/transdirect)
 
 Transdirect is Australia wide delivering solutions for you, this package covers a minimal PHP implementation of the Transdirect REST API. It contains only the endpoints documented at http://docs.transdirectapiv4.apiary.io.
 
