@@ -20,8 +20,6 @@ class Response extends GuzzleHttpResponse
      * Create a new response instance.
      *
      * @param GuzzleHttpResponse $response
-     *
-     * @return void
      */
     public function __construct(GuzzleHttpResponse $response)
     {

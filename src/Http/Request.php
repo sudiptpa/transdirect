@@ -36,8 +36,6 @@ class Request
      *
      * @param string             $token
      * @param \GuzzleHttp\Client $client
-     *
-     * @return void
      */
     public function __construct($token, ClientInterface $client = null)
     {

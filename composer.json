@@ -20,7 +20,8 @@
       "guzzlehttp/guzzle":"5.*"
    },
    "require-dev":{
-      "friendsofphp/php-cs-fixer":"~1.0"
+      "friendsofphp/php-cs-fixer":"~1.0",
+      "phpunit/phpunit": "^5.0"
    },
    "extra":{
       "branch-alias":{
@@ -31,5 +32,13 @@
       "psr-4":{
          "Sujip\\Transdirect\\":"src/"
       }
-   }
+   },
+   "autoload-dev": {
+        "psr-4": {
+            "Sujip\\Transdirect\\Test\\": "tests"
+        }
+    },
+   "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
 }
