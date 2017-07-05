@@ -5,7 +5,6 @@ namespace Sujip\Transdirect\Http;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Sujip\Transdirect\Endpoint;
-use Sujip\Transdirect\Exceptions\BadRequest;
 use Sujip\Transdirect\Response;
 
 /**
@@ -58,7 +57,7 @@ class Request
         $parameters = [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Api-Key'      => $this->token,
+                'Api-Key' => $this->token,
             ],
             'body' => json_encode($parameters),
         ];
@@ -66,10 +65,6 @@ class Request
         try {
             $response = $this->client->{$method}($url, $parameters);
         } catch (ClientException $exception) {
-            if (in_array($exception->getResponse()->getStatusCode(), [400, 409])) {
-                return new BadRequest($exception->getResponse());
-            }
-
             return $exception;
         }
 
