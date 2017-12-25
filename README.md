@@ -99,7 +99,7 @@ Please see [CHANGELOG](https://github.com/sudiptpa/transdirect/blob/master/CHANG
 
 Contributions are **welcome** and will be fully **credited**.
 
-Contributions can be made via a Pull Request on [Github](https://github.com/sudiptpa/paypal-ipn).
+Contributions can be made via a Pull Request on [Github](https://github.com/sudiptpa/transdirect).
 
 
 
@@ -113,5 +113,5 @@ If you would like to look at the real time response comming from live or mock se
 
 If you are having general issues with the package, feel free to drop me and email [sudiptpa@gmail.com](mailto:sudiptpa@gmail.com)
 
-If you believe you have found a bug, please report it using the [GitHub issue tracker](https://github.com/sudiptpa/paypal-ipn/issues),
+If you believe you have found a bug, please report it using the [GitHub issue tracker](https://github.com/sudiptpa/transdirect/issues),
 or better yet, fork the library and submit a pull request.
