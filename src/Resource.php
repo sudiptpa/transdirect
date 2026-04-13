@@ -16,7 +16,7 @@ class Resource
 
     /**
      * @param \Sujip\Transdirect\Transdirect $client
-     * @param string                          $segment
+     * @param string                         $segment
      */
     public function __construct(Transdirect $client, $segment)
     {
@@ -29,7 +29,7 @@ class Resource
      *
      * @return \Sujip\Transdirect\Response
      */
-    public function create(array $parameters = array())
+    public function create(array $parameters = [])
     {
         return $this->client->make($this->segment, $parameters, 'post');
     }
@@ -39,7 +39,7 @@ class Resource
      *
      * @return \Sujip\Transdirect\Response
      */
-    public function all(array $query = array())
+    public function all(array $query = [])
     {
         return $this->client->make($this->segment, $query, 'get');
     }
@@ -49,7 +49,7 @@ class Resource
      *
      * @return \Sujip\Transdirect\Response
      */
-    public function get(array $query = array())
+    public function get(array $query = [])
     {
         return $this->all($query);
     }
@@ -60,7 +60,7 @@ class Resource
      *
      * @return \Sujip\Transdirect\Response
      */
-    public function find($id, array $query = array())
+    public function find($id, array $query = [])
     {
         return $this->client->make($this->path($id), $query, 'get');
     }
@@ -71,7 +71,7 @@ class Resource
      *
      * @return \Sujip\Transdirect\Response
      */
-    public function update($id, array $parameters = array())
+    public function update($id, array $parameters = [])
     {
         return $this->client->make($this->path($id), $parameters, 'put');
     }
@@ -82,7 +82,7 @@ class Resource
      *
      * @return \Sujip\Transdirect\Response
      */
-    public function delete($id, array $parameters = array())
+    public function delete($id, array $parameters = [])
     {
         return $this->client->make($this->path($id), $parameters, 'delete');
     }
@@ -95,7 +95,7 @@ class Resource
      *
      * @return \Sujip\Transdirect\Response
      */
-    public function action($id, $action, array $parameters = array(), $method = 'post')
+    public function action($id, $action, array $parameters = [], $method = 'post')
     {
         return $this->client->make($this->path($id).'/'.trim($action, '/'), $parameters, $method);
     }
@@ -108,7 +108,7 @@ class Resource
      *
      * @return \Sujip\Transdirect\Response
      */
-    public function nested($id, $child, array $parameters = array(), $method = 'get')
+    public function nested($id, $child, array $parameters = [], $method = 'get')
     {
         return $this->client->make($this->path($id).'/'.trim($child, '/'), $parameters, $method);
     }
