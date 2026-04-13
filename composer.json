@@ -1,7 +1,7 @@
 {
    "name":"sudiptpa/transdirect",
    "type":"library",
-   "description":"A dependency-free Transdirect API client with a fluent, backward-compatible API.",
+   "description":"A clean, dependency-free PHP client for the Transdirect REST API.",
    "keywords":[
       "transdirect",
       "api",
@@ -24,7 +24,8 @@
       "ext-curl":"Recommended for more reliable HTTP transport."
    },
    "require-dev":{
-      "phpunit/phpunit":"^6.5 || ^9.6"
+      "phpunit/phpunit":"^6.5 || ^9.6",
+      "phpstan/phpstan":"^1.12"
    },
    "extra":{
       "branch-alias":{
@@ -38,10 +39,11 @@
    },
    "autoload-dev":{
       "psr-4":{
-         "Sujip\\Transdirect\\Test\\":"tests"
+         "Sujip\\Transdirect\\Test\\":"tests/"
       }
    },
    "scripts":{
-      "test":"vendor/bin/phpunit"
+      "test":"vendor/bin/phpunit",
+      "stan":"vendor/bin/phpstan analyse --configuration=phpstan.neon.dist"
    }
 }

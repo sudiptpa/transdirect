@@ -1,5 +1,10 @@
 ## Transdirect API client
 
+[![CI](https://github.com/sudiptpa/transdirect/actions/workflows/ci.yml/badge.svg)](https://github.com/sudiptpa/transdirect/actions/workflows/ci.yml)
+[![Latest Stable Version](https://poser.pugx.org/sudiptpa/transdirect/v/stable?format=flat)](https://packagist.org/packages/sudiptpa/transdirect)
+[![Total Downloads](https://poser.pugx.org/sudiptpa/transdirect/downloads?format=flat)](https://packagist.org/packages/sudiptpa/transdirect)
+[![License](https://poser.pugx.org/sudiptpa/transdirect/license?format=flat)](https://packagist.org/packages/sudiptpa/transdirect)
+
 A clean, dependency-free PHP client for the Transdirect REST API.
 
 - PHP 7.0+
@@ -109,6 +114,14 @@ $client = new Transdirect($apiKey, function ($method, $url, $headers, $body) {
         'body' => '{"ok":true}',
     ];
 });
+```
+
+### Testing
+
+```bash
+composer test
+composer stan
+find src tests -name '*.php' -print0 | xargs -0 -n1 php -l
 ```
 
 ### Docs
