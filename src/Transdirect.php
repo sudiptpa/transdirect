@@ -8,7 +8,7 @@ class Transdirect extends Request
 {
     public static function connect($token, $transport = null)
     {
-        return new static($token, $transport);
+        return new self($token, $transport);
     }
 
     public function quotes()

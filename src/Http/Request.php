@@ -138,7 +138,7 @@ class Request
             throw new RequestException('Unable to connect to Transdirect API.');
         }
 
-        $rawHeaders = isset($http_response_header) ? implode("\r\n", $http_response_header) : '';
+        $rawHeaders = implode("\r\n", $http_response_header);
 
         return new Response(
             $this->parseStatusCode($rawHeaders),
