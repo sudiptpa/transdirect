@@ -2,30 +2,41 @@
 
 namespace Sujip\Transdirect;
 
-use GuzzleHttp\Message\Response as GuzzleHttpResponse;
-
 /**
- * Class Response.
+ * Lightweight response wrapper used by both old and fluent APIs.
  */
-class Response extends GuzzleHttpResponse
+class Response
 {
     /**
-     * The guzzle http client response.
-     *
-     * @var \GuzzleHttp\Message\Response
+     * @var int
      */
-    protected $response;
+    protected $statusCode;
 
     /**
-     * Create a new response instance.
-     *
-     * @param GuzzleHttpResponse $response
+     * @var array
      */
-    public function __construct(GuzzleHttpResponse $response)
+    protected $headers = array();
+
+    /**
+     * @var string
+     */
+    protected $body = '';
+
+    /**
+     * @param int    $statusCode
+     * @param array  $headers
+     * @param string $body
+     */
+    public function __construct($statusCode = 200, array $headers = array(), $body = '')
     {
-        $this->response = $response;
+        $this->statusCode = (int) $statusCode;
+        $this->headers = $headers;
+        $this->body = (string) $body;
     }
 
+    /**
+     * @return string|null
+     */
     public function getId()
     {
         $object = $this->toObject();
@@ -34,63 +45,65 @@ class Response extends GuzzleHttpResponse
     }
 
     /**
-     * @return object
+     * @return object|null
      */
     public function getItems()
     {
         $object = $this->toObject();
 
-        if (!isset($object->items)) {
-            return;
-        }
-
-        return $object->items;
+        return isset($object->items) ? $object->items : null;
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getQuotes()
     {
-        $quotes = [];
+        $quotes = array();
         $object = $this->toObject();
 
         if (!isset($object->quotes)) {
-            return;
+            return null;
         }
 
         if (is_object($object->quotes)) {
             foreach ($object->quotes as $key => $quote) {
+                $service = isset($quote->service) ? $quote->service : '';
+                $transitTime = isset($quote->transit_time) ? $quote->transit_time : '';
                 $formatted = sprintf(
                     '%s - %s [%s]',
                     ucwords(str_replace('_', ' ', $key)),
-                    ucwords($quote->service),
-                    $quote->transit_time
+                    ucwords($service),
+                    $transitTime
                 );
-                $quotes[] = [
+
+                $quotes[] = array(
                     'booking_id' => $this->getId(),
                     'provider' => $key,
                     'name_original' => $this->parse($key),
                     'name_formatted' => $this->parse($formatted),
-                    'total' => $quote->total,
-                    'fee' => $quote->fee,
-                    'price_insurance_ex' => $quote->price_insurance_ex,
-                    'insured_amount' => (float) $quote->insured_amount,
+                    'total' => isset($quote->total) ? $quote->total : null,
+                    'fee' => isset($quote->fee) ? $quote->fee : null,
+                    'price_insurance_ex' => isset($quote->price_insurance_ex) ? $quote->price_insurance_ex : null,
+                    'insured_amount' => isset($quote->insured_amount) ? (float) $quote->insured_amount : 0.0,
                     'additional' => 0,
-                    'service' => $quote->service,
-                    'transit_time' => $quote->transit_time,
-                    'pickup_dates' => $quote->pickup_dates,
-                    'pickup_time' => $quote->pickup_time,
-                ];
+                    'service' => $service,
+                    'transit_time' => $transitTime,
+                    'pickup_dates' => isset($quote->pickup_dates) ? $quote->pickup_dates : null,
+                    'pickup_time' => isset($quote->pickup_time) ? $quote->pickup_time : null,
+                );
             }
         }
 
         return $quotes;
     }
 
+    /**
+     * @return string
+     */
     public function toJson()
     {
-        return (string) $this->response->getBody();
+        return $this->body;
     }
 
     /**
@@ -114,16 +127,66 @@ class Response extends GuzzleHttpResponse
      */
     public function getCode()
     {
-        return $this->response->getStatusCode();
+        return $this->statusCode;
     }
 
     /**
-     * @param $string
+     * @return int
+     */
+    public function getStatusCode()
+    {
+        return $this->getCode();
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return string|null
+     */
+    public function getHeader($name)
+    {
+        foreach ($this->headers as $key => $value) {
+            if (strtolower($key) === strtolower($name)) {
+                return $value;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function successful()
+    {
+        return $this->statusCode >= 200 && $this->statusCode < 300;
+    }
+
+    /**
+     * @param string $string
+     *
+     * @return string
      */
     public function parse($string)
     {
         $string = str_replace('_', ' ', $string);
 
         return str_replace('Tnt', 'TNT', $string);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
     }
 }

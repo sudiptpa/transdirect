@@ -5,26 +5,101 @@ namespace Sujip\Transdirect;
 trait Endpoint
 {
     /**
-     * Indicates if the environment is sandbox / live.
-     *
+     * @var string
+     */
+    protected $liveEndpoint = 'https://www.transdirect.com.au/api/';
+
+    /**
+     * @var string|null
+     */
+    protected $sandboxEndpoint;
+
+    /**
      * @var bool
      */
-    private $sandbox = false;
+    protected $sandbox = false;
 
-    public function sandbox()
+    /**
+     * Backward-compatible sandbox toggle.
+     *
+     * @param bool $enabled
+     *
+     * @return $this
+     */
+    public function sandbox($enabled = true)
     {
-        $this->sandbox = true;
+        $this->sandbox = (bool) $enabled;
+
+        return $this;
     }
 
     /**
-     * @param $segment
+     * Fluent alias for sandbox mode.
      *
-     * @return mixed
+     * @param bool $enabled
+     *
+     * @return $this
+     */
+    public function useSandbox($enabled = true)
+    {
+        return $this->sandbox($enabled);
+    }
+
+    /**
+     * @return $this
+     */
+    public function useProduction()
+    {
+        $this->sandbox = false;
+
+        return $this;
+    }
+
+    /**
+     * @param string $endpoint
+     *
+     * @return $this
+     */
+    public function setEndpoint($endpoint)
+    {
+        $this->liveEndpoint = rtrim($endpoint, '/').'/';
+
+        return $this;
+    }
+
+    /**
+     * @param string $endpoint
+     *
+     * @return $this
+     */
+    public function setSandboxEndpoint($endpoint)
+    {
+        $this->sandboxEndpoint = rtrim($endpoint, '/').'/';
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSandbox()
+    {
+        return $this->sandbox;
+    }
+
+    /**
+     * @param string|null $segment
+     *
+     * @return string
      */
     protected function getEndpoint($segment = null)
     {
-        return $this->sandbox ?
-            'https://private-anon-5e1c356539-transdirectapiv4.apiary-mock.com/api/'.$segment :
-            'https://www.transdirect.com.au/api/'.$segment;
+        if ($this->sandbox && !$this->sandboxEndpoint) {
+            throw new \Sujip\Transdirect\Exceptions\RequestException('Sandbox endpoint is not configured.');
+        }
+
+        $base = $this->sandbox ? $this->sandboxEndpoint : $this->liveEndpoint;
+
+        return $base.ltrim((string) $segment, '/');
     }
 }

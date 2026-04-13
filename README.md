@@ -1,117 +1,116 @@
-## A minimal implementation of Transdirect API v4.
+## Transdirect API client
 
-[![Build Status](https://travis-ci.org/sudiptpa/transdirect.svg?branch=master)](https://travis-ci.org/sudiptpa/transdirect)
-[![StyleCI](https://styleci.io/repos/89677820/shield?branch=master)](https://styleci.io/repos/89677820)
-[![Latest Stable Version](https://poser.pugx.org/sudiptpa/transdirect/v/stable?format=flat)](https://packagist.org/packages/sudiptpa/transdirect)
-[![Total Downloads](https://poser.pugx.org/sudiptpa/transdirect/downloads?format=flat)](https://packagist.org/packages/sudiptpa/transdirect)
-[![License](https://poser.pugx.org/sudiptpa/transdirect/license?format=flat)](https://packagist.org/packages/sudiptpa/transdirect)
+A clean, dependency-free PHP client for the Transdirect REST API.
 
-Transdirect is Australia wide delivering solutions for you, this package covers a minimal PHP implementation of the Transdirect REST API. It contains only the endpoints documented at http://docs.transdirectapiv4.apiary.io.
+- PHP 7.0+
+- no runtime HTTP dependency
+- fluent resource API
+- configurable live and sandbox endpoints
+- transport injection for tests
 
-### Installation
+### Install
 
-You can install the package via composer: [Composer](http://getcomposer.org/).
-
-```
+```bash
 composer require sudiptpa/transdirect
 ```
 
-And run composer to update your dependencies:
-
-    $ curl -s http://getcomposer.org/installer | php
-    $ php composer.phar update
-
-### Usage
-
-The first thing you need to do is get the API token from [Transdirect](https://www.transdirect.com.au/), you will need to specify the requesting domain to get valid API response data.
-
-Here are a few examples on how you can use the package:
+### Quick start
 
 ```php
-  $client = new Sujip\Transdirect\Transdirect($apiKey);  
+use Sujip\Transdirect\Transdirect;
+
+$client = Transdirect::connect($apiKey);
+
+$response = $client->quotes()->create([
+    'declared_value' => '1000.00',
+    'referrer' => 'API',
+    'requesting_site' => 'https://example.com.au',
+    'items' => [
+        [
+            'weight' => '38.63',
+            'height' => '0.25',
+            'width' => '1.65',
+            'length' => '3.32',
+            'quantity' => 1,
+            'description' => 'carton',
+        ],
+    ],
+    'sender' => [
+        'address' => '21 Kirksway Place',
+        'company_name' => 'Sender Company',
+        'email' => 'sender@example.com',
+        'name' => 'Sender Name',
+        'postcode' => '2000',
+        'phone' => '0212345678',
+        'state' => 'NSW',
+        'suburb' => 'SYDNEY',
+        'type' => 'business',
+        'country' => 'AU',
+    ],
+    'receiver' => [
+        'address' => '216 Moggill Rd',
+        'company_name' => 'Receiver Company',
+        'email' => 'receiver@example.com',
+        'name' => 'Receiver Name',
+        'postcode' => '3000',
+        'phone' => '0312345678',
+        'state' => 'VIC',
+        'suburb' => 'MELBOURNE',
+        'type' => 'business',
+        'country' => 'AU',
+    ],
+]);
+
+$quotes = $response->getQuotes();
 ```
-Also have a look in the [source code of `Sujip\Transdirect\Transdirect`](https://github.com/sudiptpa/transdirect/blob/master/src/Transdirect.php) to discover the methods you can use. You will need to visit [Official REST API documentation](http://docs.transdirectapiv4.apiary.io) for the parameters to specify with each end point.
 
-If you wish to make a direct call to API end point for your own custom implementation, you can use the `$client->make('member', $parameters);` method.
+### Resources
 
 ```php
-    $parameters = [
-        'declared_value' => '1000.00',
-        'referrer' => 'API',
-        'requesting_site' => 'http://www.test.com.au',
-        'tailgate_pickup' => true,
-        'tailgate_delivery' => true,
-        'items' => [
-            ['weight' => '38.63',
-                'height' => '0.25',
-                'width' => '1.65',
-                'length' => '3.32',
-                'quantity' => 1,
-                'description' => 'carton',
-            ],
-            [
-                'weight' => '39.63',
-                'height' => '1.25',
-                'width' => '2.65',
-                'length' => '4.32',
-                'quantity' => 2,
-                'description' => 'carton',
-            ],
-        ],
-        'sender' => [
-            'address' => '21 Kirksway Place',
-            'company_name' => 'Test Company',
-            'email' => 'sender@test.com',
-            'name' => 'Sujip Thapa',
-            'postcode' => '2000',
-            'phone' => 123456789,
-            'state' => '',
-            'suburb' => 'SYDNEY',
-            'type' => 'business',
-            'country' => 'AU',
-        ],
-        'receiver' => [
-            'address' => '216 Moggill Rd',
-            'company_name' => 'Test Receiver',
-            'email' => 'receiver@test.com',
-            'name' => 'John Smith',
-            'postcode' => '3000',
-            'phone' => 123456789,
-            'state' => '',
-            'suburb' => 'MELBOURNE',
-            'type' => 'business',
-            'country' => 'AU',
-        ],
+$client->quotes()->create($payload);
+$client->bookings()->create($payload);
+$client->bookings()->find($bookingId);
+$client->bookings()->update($bookingId, $payload);
+$client->bookings()->delete($bookingId);
+$client->bookings()->action($bookingId, 'confirm', $payload);
+$client->bookings()->nested($bookingId, 'label');
+$client->orders()->create($payload);
+$client->locations()->get(['q' => 'Sydney']);
+$client->couriers()->get();
+$client->member()->get();
+$client->frequentRates()->get();
+```
+
+### Helpers
+
+```php
+$client->tracking($bookingId);
+$client->postcode('3000');
+$client->pagedLocations(2);
+```
+
+### Sandbox
+
+```php
+$client = Transdirect::connect($apiKey)
+    ->setSandboxEndpoint('https://sandbox.example.test/api')
+    ->useSandbox();
+```
+
+Sandbox mode now requires an explicit sandbox endpoint.
+
+### Custom transport
+
+```php
+$client = new Transdirect($apiKey, function ($method, $url, $headers, $body) {
+    return [
+        'status' => 200,
+        'headers' => ['Content-Type' => 'application/json'],
+        'body' => '{"ok":true}',
     ];
-    
-  $response = $client->createBooking($parameters);
-  $quotes = $response->getQuotes();
-  $josn = $response->toJson();
-  $bookingId = $response->getId();
-  $statusCode = $response->getCode();
+});
 ```
 
-### Changelog
+### Docs
 
-Please see [CHANGELOG](https://github.com/sudiptpa/transdirect/blob/master/CHANGELOG.md) for more information what has changed recently.
-
-### Contributing
-
-Contributions are **welcome** and will be fully **credited**.
-
-Contributions can be made via a Pull Request on [Github](https://github.com/sudiptpa/transdirect).
-
-
-
-### Testing
-
-If you would like to look at the real time response comming from live or mock server with transdirect REST API endpoints browse http://docs.transdirectapiv4.apiary.io
-
-
-
-### Support
-
-If you are having general issues with the package, feel free to drop me and email [sudiptpa@gmail.com](mailto:sudiptpa@gmail.com)
-
-If you believe you have found a bug, please report it using the [GitHub issue tracker](https://github.com/sudiptpa/transdirect/issues),
-or better yet, fork the library and submit a pull request.
+https://www.transdirect.com.au/education/developers-centre/

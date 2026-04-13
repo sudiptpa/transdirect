@@ -2,15 +2,32 @@
 
 namespace Sujip\Transdirect\Exceptions;
 
-use Exception;
-use Psr\Http\Message\ResponseInterface;
+use Sujip\Transdirect\Response;
 
-class BadRequest extends Exception
+class BadRequest extends RequestException
 {
-    public function __construct(ResponseInterface $response)
-    {
-        $body = json_decode($response->getBody(), true);
+    /**
+     * @var \Sujip\Transdirect\Response
+     */
+    protected $response;
 
-        parent::__construct($body['error_summary']);
+    /**
+     * @param \Sujip\Transdirect\Response $response
+     */
+    public function __construct(Response $response)
+    {
+        $this->response = $response;
+        $body = $response->toArray();
+        $message = isset($body['error_summary']) ? $body['error_summary'] : 'Transdirect request failed.';
+
+        parent::__construct($message, $response->getCode());
+    }
+
+    /**
+     * @return \Sujip\Transdirect\Response
+     */
+    public function getResponse()
+    {
+        return $this->response;
     }
 }
