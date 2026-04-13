@@ -35,7 +35,7 @@ class Request
         return $this;
     }
 
-    public function make($uri, array $parameters = array(), $method = 'post')
+    public function make($uri, array $parameters = [], $method = 'post')
     {
         $method = strtoupper($method);
         $url = $this->getEndpoint($uri);
@@ -43,15 +43,15 @@ class Request
 
         if ($method === 'GET' && !empty($parameters)) {
             $url = $this->appendQuery($url, $parameters);
-        } elseif (!empty($parameters) || in_array($method, array('POST', 'PUT', 'PATCH', 'DELETE'), true)) {
+        } elseif (!empty($parameters) || in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'], true)) {
             $body = json_encode($parameters);
         }
 
-        $headers = array(
+        $headers = [
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
             'Api-Key' => $this->token,
-        );
+        ];
 
         return $this->send($method, $url, $headers, $body);
     }
@@ -105,6 +105,7 @@ class Request
         if ($raw === false) {
             $message = curl_error($handle);
             curl_close($handle);
+
             throw new RequestException($message);
         }
 
@@ -121,15 +122,15 @@ class Request
 
     protected function sendUsingStreams($method, $url, array $headers, $body = null)
     {
-        $context = stream_context_create(array(
-            'http' => array(
+        $context = stream_context_create([
+            'http' => [
                 'method' => $method,
                 'header' => implode("\r\n", $this->formatHeaders($headers)),
                 'content' => $body === null ? '' : $body,
                 'ignore_errors' => true,
                 'timeout' => $this->timeout,
-            ),
-        ));
+            ],
+        ]);
 
         $responseBody = @file_get_contents($url, false, $context);
 
@@ -155,12 +156,12 @@ class Request
         if (is_array($response)) {
             return new Response(
                 isset($response['status']) ? (int) $response['status'] : 200,
-                isset($response['headers']) ? (array) $response['headers'] : array(),
+                isset($response['headers']) ? (array) $response['headers'] : [],
                 isset($response['body']) ? (string) $response['body'] : ''
             );
         }
 
-        return new Response(200, array(), (string) $response);
+        return new Response(200, [], (string) $response);
     }
 
     protected function appendQuery($url, array $query)
@@ -172,7 +173,7 @@ class Request
 
     protected function formatHeaders(array $headers)
     {
-        $formatted = array();
+        $formatted = [];
 
         foreach ($headers as $key => $value) {
             $formatted[] = $key.': '.$value;
@@ -183,7 +184,7 @@ class Request
 
     protected function parseHeaders($rawHeaders)
     {
-        $headers = array();
+        $headers = [];
         $lines = preg_split('/\r\n|\r|\n/', trim($rawHeaders));
 
         foreach ($lines as $line) {

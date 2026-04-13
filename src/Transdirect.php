@@ -53,16 +53,16 @@ class Transdirect extends Request
 
     public function tracking($bookingId)
     {
-        return $this->make('bookings/track/'.rawurlencode((string) $bookingId), array(), 'get');
+        return $this->make('bookings/track/'.rawurlencode((string) $bookingId), [], 'get');
     }
 
     public function postcode($postcode)
     {
-        return $this->make('locations/postcode/'.rawurlencode((string) $postcode), array(), 'get');
+        return $this->make('locations/postcode/'.rawurlencode((string) $postcode), [], 'get');
     }
 
     public function pagedLocations($page)
     {
-        return $this->make('locations/page/'.rawurlencode((string) $page), array(), 'get');
+        return $this->make('locations/page/'.rawurlencode((string) $page), [], 'get');
     }
 }

@@ -19,18 +19,18 @@ class TransdirectTest extends TestCase
 
     public function test_it_sends_fluent_requests()
     {
-        $calls = array();
+        $calls = [];
         $client = Transdirect::connect('test-key', function ($method, $url, $headers, $body) use (&$calls) {
             $calls[] = compact('method', 'url', 'headers', 'body');
 
-            return array(
+            return [
                 'status' => 200,
-                'headers' => array('Content-Type' => 'application/json'),
+                'headers' => ['Content-Type' => 'application/json'],
                 'body' => '{"id":"B123","quotes":{"tnt":{"service":"road","transit_time":"1 day","total":"10.00","fee":"1.00","price_insurance_ex":"0.00","insured_amount":"0"}}}',
-            );
+            ];
         });
 
-        $response = $client->quotes()->create(array('declared_value' => '100.00'));
+        $response = $client->quotes()->create(['declared_value' => '100.00']);
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertSame('POST', $calls[0]['method']);
@@ -43,7 +43,7 @@ class TransdirectTest extends TestCase
         $this->expectException(RequestException::class);
 
         Transdirect::connect('test-key', function () {
-            return array('status' => 200, 'body' => '{}');
+            return ['status' => 200, 'body' => '{}'];
         })->useSandbox()->member()->get();
     }
 
@@ -52,10 +52,10 @@ class TransdirectTest extends TestCase
         $this->expectException(BadRequest::class);
 
         Transdirect::connect('test-key', function () {
-            return array(
+            return [
                 'status' => 422,
                 'body' => '{"error_summary":"Invalid request."}',
-            );
-        })->quotes()->create(array());
+            ];
+        })->quotes()->create([]);
     }
 }

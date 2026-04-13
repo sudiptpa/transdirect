@@ -15,7 +15,7 @@ class Response
     /**
      * @var array
      */
-    protected $headers = array();
+    protected $headers = [];
 
     /**
      * @var string
@@ -27,7 +27,7 @@ class Response
      * @param array  $headers
      * @param string $body
      */
-    public function __construct($statusCode = 200, array $headers = array(), $body = '')
+    public function __construct($statusCode = 200, array $headers = [], $body = '')
     {
         $this->statusCode = (int) $statusCode;
         $this->headers = $headers;
@@ -59,7 +59,7 @@ class Response
      */
     public function getQuotes()
     {
-        $quotes = array();
+        $quotes = [];
         $object = $this->toObject();
 
         if (!isset($object->quotes)) {
@@ -77,7 +77,7 @@ class Response
                     $transitTime
                 );
 
-                $quotes[] = array(
+                $quotes[] = [
                     'booking_id' => $this->getId(),
                     'provider' => $key,
                     'name_original' => $this->parse($key),
@@ -91,7 +91,7 @@ class Response
                     'transit_time' => $transitTime,
                     'pickup_dates' => isset($quote->pickup_dates) ? $quote->pickup_dates : null,
                     'pickup_time' => isset($quote->pickup_time) ? $quote->pickup_time : null,
-                );
+                ];
             }
         }
 
