@@ -4,280 +4,65 @@ namespace Sujip\Transdirect;
 
 use Sujip\Transdirect\Http\Request;
 
-/**
- * Class Transdirect.
- */
 class Transdirect extends Request
 {
-    /**
-     * @param array $parameters
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function simpleQuotes(array $parameters)
+    public static function connect($token, $transport = null)
     {
-        return $this->make('quotes', $parameters);
+        return new self($token, $transport);
     }
 
-    /**
-     * @param $parameters
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function createBooking($parameters)
+    public function quotes()
     {
-        return $this->make('bookings', $parameters);
+        return $this->resource('quotes');
     }
 
-    /**
-     * @param $since
-     * @param null $sort
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getBookings($since = null, $sort = null)
+    public function bookings()
     {
-        $uri = sprintf('bookings/?since=%s&sort=%s', $since, $sort);
-
-        return $this->make($uri, [], 'get');
+        return $this->resource('bookings');
     }
 
-    /**
-     * @param $booking_id
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getSingleBooking($booking_id)
+    public function orders()
     {
-        $uri = sprintf('bookings/%s', $booking_id);
-
-        return $this->make($uri, [], 'get');
+        return $this->resource('orders');
     }
 
-    /**
-     * @param $booking_id
-     * @param $parameters
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function updateBooking($booking_id, $parameters)
+    public function locations()
     {
-        $uri = sprintf('bookings/%s', $booking_id);
-
-        return $this->make($uri, $parameters, 'put');
+        return $this->resource('locations');
     }
 
-    /**
-     * @param $booking_id
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function removeBooking($booking_id)
+    public function couriers()
     {
-        $uri = sprintf('bookings/%s', $booking_id);
-
-        return $this->make($uri, [], 'delete');
+        return $this->resource('couriers');
     }
 
-    /**
-     * @param $booking_id
-     * @param $parameters
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function confirmBooking($booking_id, $parameters)
+    public function member()
     {
-        $uri = sprintf('bookings/%s/confirm', $booking_id);
-
-        return $this->make($uri, $parameters);
+        return $this->resource('member');
     }
 
-    /**
-     * @param $booking_id
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function trackBooking($booking_id)
+    public function frequentRates()
     {
-        $uri = sprintf('bookings/track/%s', $booking_id);
-
-        return $this->make($uri, [], 'get');
+        return $this->resource('frequent-rates');
     }
 
-    /**
-     * @param $booking_id
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getBookingItems($booking_id)
+    public function resource($segment)
     {
-        $uri = sprintf('bookings/%s/items', $booking_id);
-
-        return $this->make($uri, [], 'get');
+        return new Resource($this, $segment);
     }
 
-    /**
-     * @param $booking_id
-     * @param $parameters
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function addItemInBooking($booking_id, $parameters)
+    public function tracking($bookingId)
     {
-        $uri = sprintf('bookings/%s/items', $booking_id);
-
-        return $this->make($uri, $parameters);
+        return $this->make('bookings/track/'.rawurlencode((string) $bookingId), [], 'get');
     }
 
-    /**
-     * @param $page
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getLocations($page = null)
+    public function postcode($postcode)
     {
-        $uri = 'locations';
-
-        if (isset($page)) {
-            $uri = sprintf($uri.'/page/%s', $page);
-        }
-
-        return $this->make($uri, [], 'get');
+        return $this->make('locations/postcode/'.rawurlencode((string) $postcode), [], 'get');
     }
 
-    /**
-     * @param $query
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function searchLocations($query = null)
+    public function pagedLocations($page)
     {
-        $uri = sprintf('locations?q=%s', $query);
-
-        return $this->make($uri, [], 'get');
-    }
-
-    /**
-     * @param $query
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getByPostcode($query)
-    {
-        $uri = sprintf('locations/postcode/%s', $query);
-
-        return $this->make($uri, [], 'get');
-    }
-
-    /**
-     * @param $parameters
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function createOrder($parameters)
-    {
-        return $this->make('orders', $parameters);
-    }
-
-    /**
-     * @param $since
-     * @param null $sort
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getOrders($since = null, $sort = null)
-    {
-        $uri = sprintf('orders/?since=%s&sort=%s', $since, $sort);
-
-        return $this->make($uri, [], 'get');
-    }
-
-    /**
-     * @param $order_id
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getOrder($order_id)
-    {
-        $uri = sprintf('orders/%s', $order_id);
-
-        return $this->make($uri, [], 'get');
-    }
-
-    /**
-     * @param $order_id
-     * @param $parameters
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function updateOrder($order_id, $parameters)
-    {
-        $uri = sprintf('orders/%s', $order_id);
-
-        return $this->make($uri, $parameters, 'put');
-    }
-
-    /**
-     * @param $order_id
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function removeOrder($order_id)
-    {
-        $uri = sprintf('orders/%s', $order_id);
-
-        return $this->make($uri, [], 'delete');
-    }
-
-    /**
-     * @param $booking_id
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getPdfLabel($booking_id)
-    {
-        $uri = sprintf('bookings/%s/label', $booking_id);
-
-        return $this->make($uri, [], 'get');
-    }
-
-    /**
-     * @param $booking_id
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getInvoice($booking_id)
-    {
-        $uri = sprintf('bookings/%s/invoice', $booking_id);
-
-        return $this->make($uri, [], 'get');
-    }
-
-    /**
-     * @param $booking_id
-     *
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getTntLabel($booking_id)
-    {
-        $uri = sprintf('bookings/%s/tntregeneralabel', $booking_id);
-
-        return $this->make($uri, [], 'get');
-    }
-
-    /**
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getCouriers()
-    {
-        return $this->make('couriers', [], 'get');
-    }
-
-    /**
-     * @return \Sujip\Transdirect\Response
-     */
-    public function getMember()
-    {
-        return $this->make('member', [], 'get');
+        return $this->make('locations/page/'.rawurlencode((string) $page), [], 'get');
     }
 }

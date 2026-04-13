@@ -1,27 +1,31 @@
 {
    "name":"sudiptpa/transdirect",
    "type":"library",
-   "description":"A minimal implementation of Transdirect Public API v4 ",
+   "description":"A clean, dependency-free PHP client for the Transdirect REST API.",
    "keywords":[
       "transdirect",
-      "api"
+      "api",
+      "shipping",
+      "courier"
    ],
    "license":"MIT",
    "authors":[
       {
-         "name": "Sujip Thapa",
-         "email": "sudiptpa@gmail.com",
-         "homepage": "https://sujipthapa.co",
-         "role": "Developer"
+         "name":"Sujip Thapa",
+         "email":"sudiptpa@gmail.com",
+         "homepage":"https://sujipthapa.co",
+         "role":"Developer"
       }
    ],
    "require":{
-      "php": "~5.5|~7.0",
-      "guzzlehttp/guzzle":"5.*"
+      "php":">=7.0"
+   },
+   "suggest":{
+      "ext-curl":"Recommended for more reliable HTTP transport."
    },
    "require-dev":{
-      "friendsofphp/php-cs-fixer":"~1.0",
-      "phpunit/phpunit": "^5.0"
+      "phpunit/phpunit":"^6.5 || ^9.6",
+      "phpstan/phpstan":"^1.12"
    },
    "extra":{
       "branch-alias":{
@@ -33,12 +37,13 @@
          "Sujip\\Transdirect\\":"src/"
       }
    },
-   "autoload-dev": {
-        "psr-4": {
-            "Sujip\\Transdirect\\Test\\": "tests"
-        }
-    },
-   "scripts": {
-        "test": "vendor/bin/phpunit"
-    }
+   "autoload-dev":{
+      "psr-4":{
+         "Sujip\\Transdirect\\Test\\":"tests/"
+      }
+   },
+   "scripts":{
+      "test":"vendor/bin/phpunit",
+      "stan":"vendor/bin/phpstan analyse --configuration=phpstan.neon.dist"
+   }
 }
